@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="ventasxclientehorizontal" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<property name="ireport.zoom" value="1.3636363636363638"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="NOMBRE_USUARIO" class="java.lang.String"/>
+	<parameter name="FECHA_INICIAL" class="java.lang.String"/>
+	<parameter name="PEDIDO" class="java.lang.String"/>
+	<parameter name="NOMBRE_CLIENTE" class="java.lang.String"/>
+	<parameter name="DIRECCION_CLIENTE" class="java.lang.String"/>
+	<parameter name="TELEFONO_CELULAR" class="java.lang.String"/>
+	<parameter name="CP_CLIENTE" class="java.lang.String"/>
+	<parameter name="CIUDAD_CLIENTE" class="java.lang.String"/>
+	<parameter name="RFC_CLIENTE" class="java.lang.String"/>
+	<parameter name="NUMERO_USUARIO" class="java.lang.String"/>
+	<parameter name="PRECIO_LETRA" class="java.lang.String"/>
+	<parameter name="SUBTOTAL_PEDIDO" class="java.lang.String"/>
+	<parameter name="TOTAL_PEDIDO" class="java.lang.String"/>
+	<parameter name="FECHA_FINAL" class="java.lang.String"/>
+	<field name="utilidad" class="java.lang.String"/>
+	<field name="preciototal" class="java.lang.String"/>
+	<field name="cliente" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="40" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="15" width="555" height="13"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA["Reporte de ventas/utilidad de la fecha " + $P{FECHA_INICIAL} + " a la fecha " + $P{FECHA_FINAL}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="4" splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="27" splitType="Stretch">
+			<line>
+				<reportElement x="0" y="22" width="555" height="1"/>
+			</line>
+			<staticText>
+				<reportElement x="14" y="3" width="184" height="14"/>
+				<textElement textAlignment="Justified">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Cliente]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="198" y="3" width="160" height="14"/>
+				<textElement textAlignment="Right">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Utilidad total]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="358" y="3" width="159" height="14"/>
+				<textElement textAlignment="Right">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Precio Total]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="32" splitType="Stretch">
+			<textField>
+				<reportElement x="14" y="3" width="184" height="14"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{cliente}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="198" y="3" width="160" height="14"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression class="java.lang.String"><![CDATA["\$ " + $F{utilidad}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="358" y="3" width="159" height="14"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression class="java.lang.String"><![CDATA["\$ " + $F{preciototal}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="30" splitType="Stretch">
+			<textField>
+				<reportElement x="198" y="5" width="160" height="14"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression class="java.lang.String"><![CDATA["\$ " + $P{TOTAL_PEDIDO}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="358" y="5" width="159" height="14"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression class="java.lang.String"><![CDATA["\$ " + $P{SUBTOTAL_PEDIDO}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="14" y="5" width="184" height="14"/>
+				<textElement/>
+				<text><![CDATA[Totales]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="2" width="555" height="1"/>
+			</line>
+		</band>
+	</summary>
+</jasperReport>
