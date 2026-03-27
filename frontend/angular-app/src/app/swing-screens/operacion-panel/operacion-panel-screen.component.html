@@ -11,22 +11,87 @@
     </div>
 
     <div class="panel-content">
-      <fieldset class="swing-group" *ngFor="let group of selected.groups">
-        <legend>{{ group.title }}</legend>
+      <ng-container *ngIf="selected.name !== 'Pedidos'; else pedidosTab">
+        <fieldset class="swing-group" *ngFor="let group of selected.groups">
+          <legend>{{ group.title }}</legend>
 
-        <div class="field-grid">
-          <label *ngFor="let field of group.fields">
-            {{ field }}
-            <input type="text" />
-          </label>
+          <div class="field-grid">
+            <label *ngFor="let field of group.fields">
+              {{ field }}
+              <input type="text" />
+            </label>
+          </div>
+        </fieldset>
+
+        <div class="swing-actions">
+          <button *ngFor="let action of selected.actions" [class.swing-primary]="action === 'Aceptar' || action === 'Generar reporte'">
+            {{ action }}
+          </button>
         </div>
-      </fieldset>
+      </ng-container>
 
-      <div class="swing-actions">
-        <button *ngFor="let action of selected.actions" [class.swing-primary]="action === 'Aceptar' || action === 'Generar reporte'">
-          {{ action }}
-        </button>
-      </div>
+      <ng-template #pedidosTab>
+        <fieldset class="swing-group">
+          <legend>Pedido (integrado con servicios)</legend>
+
+          <div class="field-grid">
+            <label>
+              Cliente (ID)
+              <input type="text" [value]="customerId" (input)="customerId = $any($event.target).value" />
+            </label>
+
+            <label>
+              Producto
+              <select [value]="selectedProductId ?? ''" (change)="selectedProductId = +$any($event.target).value || null">
+                <option value="">Seleccione...</option>
+                <option *ngFor="let product of products" [value]="product.id">
+                  {{ product.sku }} - {{ product.name }}
+                </option>
+              </select>
+            </label>
+
+            <label>
+              Cantidad
+              <input type="number" min="1" [value]="quantity" (input)="quantity = +$any($event.target).value || 1" />
+            </label>
+          </div>
+
+          <p *ngIf="productsError" class="error-msg">{{ productsError }}</p>
+          <p *ngIf="loadingProducts">Cargando productos...</p>
+
+          <div class="swing-actions">
+            <button class="swing-primary" (click)="loadProducts()">Buscar</button>
+            <button (click)="addLine()" [disabled]="!selectedProductId">Agregar al pedido</button>
+            <button (click)="goToConfirmation()" [disabled]="orderDraftService.getLines().length === 0">Mostrar lista</button>
+          </div>
+        </fieldset>
+
+        <fieldset class="swing-group">
+          <legend>Detalle de líneas</legend>
+          <table>
+            <thead>
+              <tr>
+                <th>SKU</th>
+                <th>Producto</th>
+                <th>Cantidad</th>
+                <th>Precio</th>
+                <th>Importe</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let line of orderDraftService.getLines()">
+                <td>{{ line.sku }}</td>
+                <td>{{ line.productName }}</td>
+                <td>{{ line.quantity }}</td>
+                <td>{{ line.price | currency:'MXN':'symbol':'1.2-2' }}</td>
+                <td>{{ line.price * line.quantity | currency:'MXN':'symbol':'1.2-2' }}</td>
+                <td><button (click)="removeLine(line.productId)">Quitar</button></td>
+              </tr>
+            </tbody>
+          </table>
+        </fieldset>
+      </ng-template>
     </div>
   </div>
 </section>

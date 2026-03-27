@@ -3,15 +3,53 @@
   <div class="swing-body">
     <table>
       <tbody>
-        <tr *ngFor="let row of resumen">
-          <th>{{ row }}</th>
-          <td>-</td>
+        <tr>
+          <th>Sub Total $</th>
+          <td>{{ subtotal | currency:'MXN':'symbol':'1.2-2' }}</td>
+        </tr>
+        <tr>
+          <th>Utilidad $</th>
+          <td>{{ utilidad | currency:'MXN':'symbol':'1.2-2' }}</td>
+        </tr>
+        <tr>
+          <th>Total $</th>
+          <td>{{ total | currency:'MXN':'symbol':'1.2-2' }}</td>
+        </tr>
+        <tr>
+          <th>Cliente:</th>
+          <td>{{ orderDraftService.getCustomerId() || '-' }}</td>
         </tr>
       </tbody>
     </table>
 
+    <fieldset class="swing-group">
+      <legend>Líneas</legend>
+      <table>
+        <thead>
+          <tr>
+            <th>SKU</th>
+            <th>Producto</th>
+            <th>Cantidad</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let line of orderDraftService.getLines()">
+            <td>{{ line.sku }}</td>
+            <td>{{ line.productName }}</td>
+            <td>{{ line.quantity }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </fieldset>
+
+    <p *ngIf="error" class="error-msg">{{ error }}</p>
+    <p *ngIf="orderId">Pedido creado: <strong>{{ orderId }}</strong> ({{ createdAt | date:'medium' }})</p>
+
     <div class="swing-actions">
-      <button class="swing-primary">Confirmar Pedido</button>
+      <button (click)="volverOperacion()">Volver</button>
+      <button class="swing-primary" (click)="confirmOrder()" [disabled]="loading">
+        {{ loading ? 'Confirmando...' : 'Confirmar Pedido' }}
+      </button>
     </div>
   </div>
 </section>

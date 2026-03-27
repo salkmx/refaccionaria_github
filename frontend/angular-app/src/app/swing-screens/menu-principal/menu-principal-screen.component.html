@@ -2,6 +2,8 @@
   <h2 class="swing-title">Menú Principal</h2>
   <div class="swing-body">
     <p>Equivalente a la ventana principal Swing con acceso a pantallas operativas.</p>
+    <p *ngIf="authService.isAuthenticated()">Sesión activa: <strong>{{ username || '...' }}</strong></p>
+    <p *ngIf="!authService.isAuthenticated()">No hay sesión activa.</p>
 
     <nav class="menu-grid">
       <a routerLink="/login" routerLinkActive="active">Login</a>
@@ -9,5 +11,9 @@
       <a routerLink="/confirmacion" routerLinkActive="active">Confirmación</a>
       <a routerLink="/about" routerLinkActive="active">Acerca de</a>
     </nav>
+
+    <div class="swing-actions">
+      <button (click)="logout()" [disabled]="!authService.isAuthenticated()">Cerrar sesión</button>
+    </div>
   </div>
 </section>

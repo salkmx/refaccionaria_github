@@ -13,11 +13,18 @@ export interface CreateOrderRequest {
   lines: OrderLine[];
 }
 
+export interface CreateOrderResponse {
+  orderId: string;
+  status: string;
+  createdAt: string;
+  lines: OrderLine[];
+}
+
 @Injectable({ providedIn: 'root' })
 export class OrdersService {
   constructor(private readonly http: HttpClient) {}
 
-  createOrder(payload: CreateOrderRequest): Observable<unknown> {
-    return this.http.post(`${environment.apiBaseUrl}/api/orders`, payload);
+  createOrder(payload: CreateOrderRequest): Observable<CreateOrderResponse> {
+    return this.http.post<CreateOrderResponse>(`${environment.apiBaseUrl}/api/orders`, payload);
   }
 }

@@ -2,14 +2,18 @@
   <h2 class="swing-title">Login</h2>
   <div class="swing-body blue-panel">
     <label>Nombre de usuario</label>
-    <input type="text" />
+    <input type="text" [(ngModel)]="username" [disabled]="loading" />
 
     <label>Contraseña</label>
-    <input type="password" />
+    <input type="password" [(ngModel)]="password" [disabled]="loading" />
+
+    <p *ngIf="error" class="error-msg">{{ error }}</p>
 
     <div class="swing-actions">
-      <button class="swing-primary">Entrar</button>
-      <button>Cancelar</button>
+      <button class="swing-primary" (click)="login()" [disabled]="loading">
+        {{ loading ? 'Entrando...' : 'Entrar' }}
+      </button>
+      <button (click)="clear()" [disabled]="loading">Cancelar</button>
     </div>
   </div>
 </section>
