@@ -1,0 +1,25 @@
+<section class="card">
+  <h2>Operación</h2>
+
+  <nav class="tabs">
+    <button
+      *ngFor="let tab of tabs"
+      type="button"
+      [class.active]="tab.key === selectedTab.key"
+      (click)="selectTab(tab)">
+      {{ tab.title }}
+    </button>
+  </nav>
+
+  <div class="content">
+    <h3>{{ selectedTab.title }}</h3>
+
+    <ul>
+      <li *ngFor="let field of selectedTab.fields">{{ field }}</li>
+    </ul>
+
+    <div class="actions">
+      <button *ngFor="let action of selectedTab.actions" type="button">{{ action }}</button>
+    </div>
+  </div>
+</section>
