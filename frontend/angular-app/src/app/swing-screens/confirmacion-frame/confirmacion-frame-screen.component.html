@@ -1,0 +1,17 @@
+<section class="swing-window">
+  <h2 class="swing-title">Confirmación de Pedido</h2>
+  <div class="swing-body">
+    <table>
+      <tbody>
+        <tr *ngFor="let row of resumen">
+          <th>{{ row }}</th>
+          <td>-</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="swing-actions">
+      <button class="swing-primary">Confirmar Pedido</button>
+    </div>
+  </div>
+</section>

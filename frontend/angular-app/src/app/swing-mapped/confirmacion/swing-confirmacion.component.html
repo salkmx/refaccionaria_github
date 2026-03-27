@@ -1,0 +1,14 @@
+<section class="card">
+  <h2>{{ ui.title }}</h2>
+
+  <table>
+    <tbody>
+      <tr *ngFor="let label of ui.labels">
+        <th>{{ label }}</th>
+        <td>-</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <button type="button">{{ ui.action }}</button>
+</section>

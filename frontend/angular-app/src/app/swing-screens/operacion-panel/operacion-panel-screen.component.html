@@ -1,0 +1,32 @@
+<section class="swing-window">
+  <h2 class="swing-title">Operación</h2>
+  <div class="swing-body">
+    <div class="tabs">
+      <button
+        *ngFor="let tab of tabs"
+        [class.active]="tab.name === selected.name"
+        (click)="setSelected(tab)">
+        {{ tab.name }}
+      </button>
+    </div>
+
+    <div class="panel-content">
+      <fieldset class="swing-group" *ngFor="let group of selected.groups">
+        <legend>{{ group.title }}</legend>
+
+        <div class="field-grid">
+          <label *ngFor="let field of group.fields">
+            {{ field }}
+            <input type="text" />
+          </label>
+        </div>
+      </fieldset>
+
+      <div class="swing-actions">
+        <button *ngFor="let action of selected.actions" [class.swing-primary]="action === 'Aceptar' || action === 'Generar reporte'">
+          {{ action }}
+        </button>
+      </div>
+    </div>
+  </div>
+</section>

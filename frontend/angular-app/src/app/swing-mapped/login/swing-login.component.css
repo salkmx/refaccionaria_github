@@ -1,0 +1,14 @@
+.login-panel {
+  background: #0066cc;
+  color: #fff;
+}
+
+.actions {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.primary {
+  background: #0f172a;
+  color: #fff;
+}
