@@ -11,22 +11,25 @@ Esta carpeta contiene la estructura sugerida para consumir los microservicios a 
 - `tsconfig.spec.json`: configuración de pruebas
 - `src/main.ts`, `src/index.html`, `src/styles.css`: punto de entrada y shell web
 
+## Pantallas Swing mapeadas (1:1 por clase)
+
+Se agregó una pantalla Angular por cada pantalla Swing principal, conservando estética azul, grupos y botones:
+
+- `Login` -> `swing-screens/login/login-screen.component`
+- `MenuPrincipal` -> `swing-screens/menu-principal/menu-principal-screen.component`
+- `OperacionPanel` -> `swing-screens/operacion-panel/operacion-panel-screen.component`
+- `ConfirmacionFrame` -> `swing-screens/confirmacion-frame/confirmacion-frame-screen.component`
+- `AutoPartsSwingAboutBox` -> `swing-screens/about-box/about-box-screen.component`
+
+El enrutamiento está en `src/app/app.routes.ts` y permite navegar por cada pantalla por URL.
+
 ## Estructura funcional
 
 - `core/auth`: autenticación, interceptor y guard
 - `features/catalog`: listado de productos
 - `features/orders`: alta de pedidos
-- `swing-mapped`: mapeo visual de pantallas Swing legacy (Login, Operación, Confirmación)
-
-## Mapeo Swing -> Angular
-
-El mapeo replica etiquetas y acciones del cliente Swing original usando componentes standalone:
-
-- `swing-shell.component`: contenedor general
-- `login/swing-login.component`: pantalla de acceso
-- `operacion/swing-operacion.component`: pestañas Cliente/Proveedor/Pedidos/Actualizar Catálogo/Reporte
-- `confirmacion/swing-confirmacion.component`: resumen de pedido
-- `swing-map.ts`: catálogo de labels y acciones traducidas desde `.properties`
+- `swing-mapped`: versión compacta de mapeo legacy
+- `swing-screens`: mapeo por pantalla/clase Swing
 
 ## Ejecución
 
