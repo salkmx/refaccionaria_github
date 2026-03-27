@@ -1,5 +1,8 @@
-import { Component } from '@angular/core';
-import { NgFor } from '@angular/common';
+import { Component, OnInit } from '@angular/core';
+import { CurrencyPipe, NgFor, NgIf } from '@angular/common';
+import { Router } from '@angular/router';
+import { CatalogService, Product } from '../../features/catalog/catalog.service';
+import { OrderDraftService } from '../../features/orders/order-draft.service';
 
 interface PanelTab {
   name: string;
@@ -10,11 +13,11 @@ interface PanelTab {
 @Component({
   selector: 'app-operacion-panel-screen',
   standalone: true,
-  imports: [NgFor],
+  imports: [NgFor, NgIf, CurrencyPipe],
   templateUrl: './operacion-panel-screen.component.html',
   styleUrls: ['../swing-theme.css', './operacion-panel-screen.component.css']
 })
-export class OperacionPanelScreenComponent {
+export class OperacionPanelScreenComponent implements OnInit {
   readonly tabs: PanelTab[] = [
     {
       name: 'Cliente',
@@ -56,8 +59,64 @@ export class OperacionPanelScreenComponent {
   ];
 
   selected = this.tabs[0];
+  customerId = '';
+  products: Product[] = [];
+  selectedProductId: number | null = null;
+  quantity = 1;
+  loadingProducts = false;
+  productsError = '';
+
+  constructor(
+    private readonly catalogService: CatalogService,
+    readonly orderDraftService: OrderDraftService,
+    private readonly router: Router
+  ) {}
+
+  ngOnInit(): void {
+    this.customerId = this.orderDraftService.getCustomerId();
+    this.loadProducts();
+  }
 
   setSelected(tab: PanelTab): void {
     this.selected = tab;
+  }
+
+  loadProducts(): void {
+    this.productsError = '';
+    this.loadingProducts = true;
+    this.catalogService.getProducts().subscribe({
+      next: (products) => {
+        this.products = products;
+        this.loadingProducts = false;
+      },
+      error: () => {
+        this.loadingProducts = false;
+        this.productsError = 'No se pudieron cargar los productos del catálogo.';
+      }
+    });
+  }
+
+  addLine(): void {
+    if (!this.selectedProductId) {
+      return;
+    }
+
+    const product = this.products.find((item) => item.id === this.selectedProductId);
+    if (!product) {
+      return;
+    }
+
+    this.orderDraftService.setCustomerId(this.customerId);
+    this.orderDraftService.addOrUpdateLine(product, this.quantity);
+    this.quantity = 1;
+  }
+
+  removeLine(productId: number): void {
+    this.orderDraftService.removeLine(productId);
+  }
+
+  goToConfirmation(): void {
+    this.orderDraftService.setCustomerId(this.customerId);
+    void this.router.navigate(['/confirmacion']);
   }
 }

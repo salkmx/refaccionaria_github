@@ -9,6 +9,11 @@ interface LoginResponse {
   expiresInSeconds: number;
 }
 
+interface MeResponse {
+  username: string;
+  role: string;
+}
+
 @Injectable({ providedIn: 'root' })
 export class AuthService {
   private readonly tokenKey = 'access_token';
@@ -21,8 +26,16 @@ export class AuthService {
       .pipe(tap((response) => localStorage.setItem(this.tokenKey, response.accessToken)));
   }
 
+  me(): Observable<MeResponse> {
+    return this.http.get<MeResponse>(`${environment.apiBaseUrl}/api/auth/me`);
+  }
+
   getToken(): string | null {
     return localStorage.getItem(this.tokenKey);
+  }
+
+  isAuthenticated(): boolean {
+    return !!this.getToken();
   }
 
   logout(): void {
